@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script>
+
+        function btnStart(name){
+            $.ajax({
+                type: 'POST',
+                url:  '/maple/api/start',
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                                    let msg = response['msg'];
+                                    alert(msg);
+                    }
+                }
+            });
+        }
+
+        function btnStop(name){
+            $.ajax({
+                type: 'POST',
+                url:  '/maple/api/stop',
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                                    let msg = response['msg'];
+                                    alert(msg);
+                    }
+                }
+            });
+        }
+            function btnScreen1() {
+                var time = new Date().getTime();	// 이미지 새로고침을 위한 랜덤 값
+                var src = "{{ url_for('static', filename='img/temp.bmp') }}?time=" + time;
+                $('#img').attr('src', src);
+            }
+    </script>
+
+
+    <style> 
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .Rectangle-12 {
+            position:absolute;
+            width: 1366px;
+            height: 768px;
+            margin: 0 40px 8px 0;
+            background-color: rgba(255, 0, 0, 0.43);
+        }
+        .Rectangle-13 {
+            position:absolute;
+            width: 862px;
+            height: 236px;
+            margin: 768px 28px 0 0;
+            padding: 3px 0 0 10px;
+            background-color: rgba(0, 0, 0, 0.71);
+        }
+        .Rectangle-8 {
+            width: 176.7px;
+            height: 53px;
+            padding: 16.8px 9px 14.1px 15px;
+            border-radius: 42.5px;
+            box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: rgba(252, 204, 204, 0.35);
+        }
+
+        .Rectangle-pause {
+            width: 109px;
+            height: 32px;
+            margin: 31px 12px 8px 1244px;
+            padding: 9.3px 0 7.1px;
+            border-radius: 42.5px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+        .Rectangle-resume {
+            width: 109px;
+            height: 32px;
+            margin: 31px 12px 8px 1244px;
+            padding: 9.3px 0 7.1px;
+            border-radius: 42.5px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+        .Rectangle-stop {
+            position:absolute;
+            width: 109px;
+            height: 32px;
+            margin: 950px 12px 8px 1124px;
+            padding: 9.3px 0 7.1px;
+            border-radius: 42.5px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+        .Rectangle-start {
+            position:absolute;
+            width: 109px;
+            height: 32px;
+            margin: 950px 12px 8px 1264px;
+            padding: 9.3px 0 7.1px;
+            border-radius: 42.5px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: rgba(51, 255, 0, 0.5);
+        }
+
+        .image_panel{
+      border:1px solid #eeeeee;
+      text-align:center;
+      margin:5px;
+}
+    .image_panel .title{
+      font-size:9pt;
+      color:#ff0000;
+}
+    </style>
+</head>
+<body">
+
+    <div class="Rectangle-13">
+        <table border="1" style="table-layout:fixed;">
+        <tr>
+            <td>
+                <span>
+                    log 현재레벨 경험치 젬스톤 메소 캐릭 횟수
+                  </span>
+            </td>
+            <td>
+                <span>
+                    랑,니로그창 로렘입숨사리아니
+                  </span>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="4" colspan="2" width=842  height=100 style='table-layout:fixed'>
+                <span>
+                    1<br>
+                    2<br>
+                    3<br>
+                    4<br>
+                    5<br>
+                    6<br>
+                    7<br>
+                    8
+                  </span>
+            </td>
+        </tr>              
+    </table>
+    </div>
+    <a href="#" onclick="btnStop('읏우')" class="Rectangle-stop" style="text-align: center;">중지</a>
+    <a href="#" onclick="btnStart('읏우')" class="Rectangle-start" style="text-align: center;">시작</a>
+    <div>
+        <img src="{{ url_for('video_feed') }}" width="1366"/>
+    </div>
+            
+</body>
+</html>
+
+                        
+                      
+                    
+                  
+
+                  
+    
