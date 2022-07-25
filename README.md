@@ -21,7 +21,9 @@ pip install PySimpleGUI opencv-python mss pywin32
 2022 7월 26일 웹 기반 스트리밍구현
 
 
-#할거   1. 미니맵 나의 위치
+#할거  
+
+        1. 미니맵 나의 위치
 
         2. classdd 세팅
         
