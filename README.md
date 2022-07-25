@@ -1,5 +1,4 @@
 # pickit
-
 conda install -c anaconda pywin32
 pip install opencv-python
 pip install flask
