@@ -1,4 +1,4 @@
-import win32gui, win32ui, win32con ,win32api
+import win32gui
 
 def handdle(win_name):
     # hWnd = win32gui.FindWindow(None, win_name)

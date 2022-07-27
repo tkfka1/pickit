@@ -1,6 +1,5 @@
-from cv2 import imread
 import cv2
-from flask import Flask, render_template, jsonify, request ,Response , send_file
+from flask import Flask, render_template, jsonify, request ,Response
 import main
 import time
 from module.camera import Camera

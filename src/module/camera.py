@@ -1,4 +1,3 @@
-from fnmatch import translate
 import cv2
 from flask import g
 import mss

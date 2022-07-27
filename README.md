@@ -10,9 +10,9 @@ conda install pillow
 
 conda install opencv-python
 
-conda install pyautogui 
+pip install pyautogui 
 
-conda install pywinauto
+pip install pywinauto
 
 pip install PySimpleGUI opencv-python mss pywin32
 
