@@ -5,9 +5,7 @@ import main
 import time
 from module.camera import Camera
 
-
 app = Flask(__name__)
-
 
 
 def gen(camera):
@@ -31,7 +29,7 @@ def maple():
 @app.route('/maple/api/start', methods=['POST'])
 def btn_start():
     main.start()
-    return jsonify({'result': 'success', 'msg': '메이플 시작'})
+    return jsonify()
 
 
 # API 역할을 하는 부분
@@ -42,13 +40,17 @@ def btn_stop():
 
 
 # API 역할을 하는 부분
-@app.route('/maple/api/screen', methods=['GET'])
-def btn_screen():
-    # 1. db에서 mystar 목록 전체를 검색합니다. ID는 제외하고 like 가 많은 순으로 정렬합니다.
-    # 참고) find({},{'_id':False}), sort()를 활용하면 굿!
-    # 2. 성공하면 success 메시지와 함께 stars_list 목록을 클라이언트에 전달합니다.
-    screens = "{{ url_for('static', filename='img/temp.bmp') }}"
-    return jsonify({'result': 'success', 'msg': screens})
+@app.route('/maple/api/test1', methods=['POST'])
+def btn_test1():
+    main.test1()
+    return jsonify({'result': 'success', 'msg': 't1'})
+
+# API 역할을 하는 부분
+@app.route('/maple/api/test2', methods=['POST'])
+def btn_test2():
+    main.test2()
+    return jsonify({'result': 'success', 'msg': 't2'})
+
 
 
 @app.route('/video_feed')
@@ -74,10 +76,7 @@ def video_feed():
 #     return jsonify({'result': 'success', 'msg': 'delete 연결되었습니다!'})
 
 
-@app.route("/image")
-def image():
-    return send_file('src/static/img/temp.bmp')
 
 if __name__ == '__main__':
-    img = open('src/static/img/temp.bmp', 'rb').read()
+
     app.run('0.0.0.0', port=5000, debug=True)

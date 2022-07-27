@@ -38,6 +38,33 @@
                 }
             });
         }
+        
+        function btnTest1(name){
+            $.ajax({
+                type: 'POST',
+                url:  '/maple/api/test1',
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                                    let msg = response['msg'];
+                                    alert(msg);
+                    }
+                }
+            });
+        }
+        function btnTest2(name){
+            $.ajax({
+                type: 'POST',
+                url:  '/maple/api/test2',
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                                    let msg = response['msg'];
+                                    alert(msg);
+                    }
+                }
+            });
+        }
             function btnScreen1() {
                 var time = new Date().getTime();	// 이미지 새로고침을 위한 랜덤 값
                 var src = "{{ url_for('static', filename='img/temp.bmp') }}?time=" + time;
@@ -112,16 +139,36 @@
             box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
             background-color: rgba(51, 255, 0, 0.5);
         }
+        .Rectangle-test1 {
+            position:absolute;
+            width: 109px;
+            height: 32px;
+            margin: 850px 12px 8px 1124px;
+            padding: 9.3px 0 7.1px;
+            border-radius: 42.5px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: rgba(51, 255, 0, 0.5);
+        }
+        .Rectangle-test2 {
+            position:absolute;
+            width: 109px;
+            height: 32px;
+            margin: 850px 12px 8px 1264px;
+            padding: 9.3px 0 7.1px;
+            border-radius: 42.5px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: rgba(51, 255, 0, 0.5);
+        }
 
-        .image_panel{
-      border:1px solid #eeeeee;
-      text-align:center;
-      margin:5px;
-}
-    .image_panel .title{
-      font-size:9pt;
-      color:#ff0000;
-}
+                .image_panel{
+            border:1px solid #eeeeee;
+            text-align:center;
+            margin:5px;
+        }
+            .image_panel .title{
+            font-size:9pt;
+            color:#ff0000;
+        }
     </style>
 </head>
 <body">
@@ -156,6 +203,8 @@
         </tr>              
     </table>
     </div>
+    <a href="#" onclick="btnTest1('읏우')" class="Rectangle-test1" style="text-align: center;">테스트버튼1</a>
+    <a href="#" onclick="btnTest2('읏우')" class="Rectangle-test2" style="text-align: center;">테스트버튼</a>
     <a href="#" onclick="btnStop('읏우')" class="Rectangle-stop" style="text-align: center;">중지</a>
     <a href="#" onclick="btnStart('읏우')" class="Rectangle-start" style="text-align: center;">시작</a>
     <div>
