@@ -1,5 +1,7 @@
 from itertools import cycle
 import multiprocessing as mp
+import queue
+import threading
 import time
 from module.camera import Camera
 import module.handle as hd
@@ -161,29 +163,39 @@ def work2():
 
 
 def test1():
-    pb_path = "src/Rune/saved_model"
     print("tes1")
-    model = tf.saved_model.load(pb_path)
     image = cv2.imread("src/static/img/1635604669.jpg")
     image_array = np.array(image)
-    with tf.device('/gpu:0'):
+    pb_path = "src/Rune/saved_model"
+    model = tf.saved_model.load(pb_path)
+    with tf.device('/cpu:0'):
         results = inference_from_model(model, image_array)
-        print(results)
+    print(results)
+
+    
+def load_model():
+    q = queue.Queue()
+    t = threading.Thread(target=load_tensorflow_model, args=(q,))
+    t.daemon = True
+    t.start()
+    
+    # with tf.device('/gpu:0'):
+    #     results = inference_from_model(model, image_array)
+    #     print(results)
     
     # monitoring_screen = monitoring(bbox_screen)
     # # with tf.device('/gpu:0'):
-    # with tf.device('/cpu:0'):
-    #     results = inference_from_model(model, monitoring_screen)
+
     # monitoring_screen = cv2.cvtColor(monitoring_screen, cv2.COLOR_RGB2BGR)
     # cv2.imwrite(f'./data/{int(time.time())}.jpg', monitoring_screen)
 
 def test2():
     print("tes2")
 
-# def load_tensorflow_model(model_path):
-#     model = tf.saved_model.load(model_path)
-#     q.put(model)
-#     return q
+def load_tensorflow_model(q):
+    pb_path = "src/Rune/saved_model"
+    model = tf.saved_model.load(pb_path)
+    q.put(model)
 
 def inference_from_model(model, image, threshold=None):
     img = image.copy()
@@ -208,5 +220,5 @@ def inference_from_model(model, image, threshold=None):
         detect_coord = output_dict['detection_boxes'][:4]
     return detect_class[np.argsort(detect_coord[:,1])[::-1]]
 
-# if __name__ == "__main__":
-#     start()
+if __name__ == "__main__":
+    test1()
