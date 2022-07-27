@@ -1,22 +1,22 @@
 # pickit
 conda install -c anaconda pywin32
 
-pip install opencv-python
+pip install pypiwin32
+conda install opencv-python
 
-pip install flask
+conda install flask
 
-pip install pillow
+conda install pillow
 
-pip install opencv-python
+conda install opencv-python
 
-pip install pyautogui 
+conda install pyautogui 
 
-pip install pywinauto
+conda install pywinauto
 
 pip install PySimpleGUI opencv-python mss pywin32
 
-
-
+conda install tensorflow
 
 2022 7월 26일 웹 기반 스트리밍구현
 
