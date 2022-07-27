@@ -37,6 +37,7 @@ class Camera(object):
     myLoc = (0, 0)
     global runeLoc
     runeLoc = (0, 0)
+    global raw
 
 
     # 최상위로
@@ -70,6 +71,7 @@ class Camera(object):
         global mapSize
         global myLoc
         global runeLoc
+        global raw
 
         top = hwnd[2]
         left = hwnd[1]
@@ -152,7 +154,12 @@ class Camera(object):
         mapSize = int(x) , int(y) , int(w) , int(h)
 
     def hwndPrint():
+        global hwnd
         return hwnd
+
+    def getRaw():
+        global raw
+        return raw
 
     def force_focus():
         hd.force_focus(hwnd[0])
