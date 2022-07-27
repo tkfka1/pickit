@@ -23,20 +23,17 @@ def home():
 def maple():
     return render_template('maple.html')
 
-
 # API 역할을 하는 부분
 @app.route('/maple/api/start', methods=['POST'])
 def btn_start():
     main.start()
     return jsonify()
 
-
 # API 역할을 하는 부분
 @app.route('/maple/api/stop', methods=['POST'])
 def btn_stop():
     main.stop()
     return jsonify({'result': 'success', 'msg': '메이플 중지'})
-
 
 # API 역할을 하는 부분
 @app.route('/maple/api/test1', methods=['POST'])
@@ -49,8 +46,6 @@ def btn_test1():
 def btn_test2():
     main.test2()
     return jsonify({'result': 'success', 'msg': 't2'})
-
-
 
 @app.route('/video_feed')
 def video_feed():

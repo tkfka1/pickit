@@ -17,6 +17,8 @@ pip install pywinauto
 pip install PySimpleGUI opencv-python mss pywin32
 
 conda install tensorflow
+pip install --upgrade scipy
+
 
 2022 7월 26일 웹 기반 스트리밍구현
 

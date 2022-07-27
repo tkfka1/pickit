@@ -3,8 +3,6 @@ import multiprocessing as mp
 import queue
 import threading
 import time
-
-from cv2 import imshow
 from matplotlib import pyplot as plt
 from module.camera import Camera
 import module.handle as hd
@@ -171,13 +169,13 @@ def test1():
     bbox_screen = Camera.getRaw()
     image_array = np.array(bbox_screen)
     img2 = cv2.cvtColor(image_array, cv2.COLOR_BGRA2RGB)
-    cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", img2)
+    monitoring_screen = cv2.cvtColor(image_array, cv2.COLOR_BGRA2BGR)
+    cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", monitoring_screen)
     pb_path = "src/Rune/saved_model"
     model = tf.saved_model.load(pb_path)
     # monitoring_screen = monitoring(bbox_screen)
     # monitoring_screen = Camera.getRaw()
-    # monitoring_screen = cv2.cvtColor(monitoring_screen, cv2.COLOR_RGB2BGR)
-    with tf.device('/gpu:0'):
+    with tf.device('/cpu:0'):
         results = inference_from_model(model, img2)
     print(results)
     
