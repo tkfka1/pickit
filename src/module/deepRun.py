@@ -20,7 +20,7 @@ def runeDetec(*inputo):
         with tf.device('/cpu:0'):
             output = model.predict_classes(np.expand_dims(image1,axis=0))
         results.append(output[0])
-    results = np.array(results)    
+    results = np.array(results)
     return(results)
 
     # 룬 이미지  경로=img_dir 받고 룬 사진 찾아서 하나씩 룬판독하기
