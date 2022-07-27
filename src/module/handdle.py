@@ -7,3 +7,7 @@ def handdle(win_name):
     h=b-t
     w=r-l
     return hWnd , h , w
+
+def force_focus(hWnd):
+    win32gui.SetForegroundWindow(hWnd)
+    return hWnd

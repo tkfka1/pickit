@@ -50,6 +50,7 @@ def btn_screen():
     screens = "{{ url_for('static', filename='img/temp.bmp') }}"
     return jsonify({'result': 'success', 'msg': screens})
 
+
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(Camera()),

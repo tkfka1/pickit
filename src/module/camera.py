@@ -46,6 +46,21 @@ class Camera(object):
         }
         with mss.mss() as sct:
             while True:
+                hwndname ="MapleStory"
+                hwnd = win32gui.FindWindow(None, hwndname)
+                if hwnd >=1:
+                    left, top, right, bot = win32gui.GetWindowRect(hwnd)
+                    w = right - left
+                    h = bot - top
+                print("창의 좌표는", left, top, right, bot)
+
+                monitor = {
+                    'top': top+26,
+                    'left': left+3,
+                    'width': 1366,
+                    'height': 768
+                }
+                
                 time.sleep(0.1)
                 raw = sct.grab(monitor)
                 # Use numpy and opencv to convert the data to JPEG. 

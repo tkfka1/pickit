@@ -43,19 +43,17 @@ def CapProcess():
 
     #핸들 한번더가져오기
     hWnd = hd.handdle("MapleStory")
-
+    
     #반복
     while True:
         # 프로세스 종료 조건
         if statM == 0:
             break
-        # 캡쳐 실행
-        cap.screenshot(hWnd)
-        print("CapProcess 실행중")
+        # 항상위
+        hd.force_focus(hWnd)
+        
         # 시간 지연
         time.sleep(1)
-        imgfile = 'src/static/img/temp.bmp'
-        img = cv2.imread(imgfile, cv2.IMREAD_GRAYSCALE) #cv2.IMREAD_COLOR : 컬러 이미지
         
     print("CapProcess 종료")
 
