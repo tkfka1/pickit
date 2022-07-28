@@ -3,6 +3,7 @@ import multiprocessing as mp
 import queue
 import threading
 import time
+from cv2 import imread
 from matplotlib import pyplot as plt
 from module.camera import Camera
 import module.handle as hd
@@ -165,18 +166,21 @@ def work2():
 
 def test1():
     print("tes1")
-    # image = cv2.imread("src/static/img/1635604669.jpg")
-    bbox_screen = Camera.getRaw()
-    image_array = np.array(bbox_screen)
+    image = cv2.imread("src/static/img/test.jpg")
+    image_array = np.array(image)
+
+    # bbox_screen = Camera.getRaw()
+    # image_array = np.array(bbox_screen)
     img2 = cv2.cvtColor(image_array, cv2.COLOR_BGRA2RGB)
     monitoring_screen = cv2.cvtColor(image_array, cv2.COLOR_BGRA2BGR)
     cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", monitoring_screen)
     pb_path = "src/Rune/saved_model"
     model = tf.saved_model.load(pb_path)
+    with tf.device('/gpu:0'):
+        results = inference_from_model(model, img2)
     # monitoring_screen = monitoring(bbox_screen)
     # monitoring_screen = Camera.getRaw()
-    with tf.device('/cpu:0'):
-        results = inference_from_model(model, img2)
+
     print(results)
     
 def monitoring(rect):
@@ -210,5 +214,22 @@ def inference_from_model(model, image, threshold=None):
         detect_coord = output_dict['detection_boxes'][:4]
     return detect_class[np.argsort(detect_coord[:,1])[::-1]]
 
-if __name__ == "__main__":
-    test1()
+def init():
+    bbox_screen = imread("src/static/img/test.jpg")
+    image_array = np.array(bbox_screen)
+    img2 = cv2.cvtColor(image_array, cv2.COLOR_BGRA2RGB)
+    pb_path = "src/Rune/saved_model"
+    model = tf.saved_model.load(pb_path)
+    with tf.device('/gpu:0'):
+        results = inference_from_model(model, img2)
+    print(results)
+
+
+# if __name__ == "__main__":
+#     bbox_screen = imread("src/static/test.jpg")
+#     image_array = np.array(bbox_screen)
+#     img2 = cv2.cvtColor(image_array, cv2.COLOR_BGRA2RGB)
+#     pb_path = "src/Rune/saved_model"
+#     model = tf.saved_model.load(pb_path)
+#     with tf.device('/gpu:0'):
+#         results = inference_from_model(model, img2)

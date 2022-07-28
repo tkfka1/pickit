@@ -6,6 +6,8 @@ import threading
 import time
 import module.handle as hd
 import module.imgCheck as ic
+import tensorflow as tf
+import numpy as np
 
 class Camera(object):
     #######################################
@@ -38,7 +40,6 @@ class Camera(object):
     runeLoc = (0, 0)
     global raw
 
-
     # 최상위로
     # hd.force_focus(hwnd[0])
 
@@ -47,6 +48,7 @@ class Camera(object):
             Camera.last_access = time.time()
             Camera.thread = threading.Thread(target=self._thread)
             Camera.thread.start()
+
 
             while self.get_frame() is None:
                 time.sleep(0)

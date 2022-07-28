@@ -9,6 +9,7 @@ time.sleep(3)
 # ardu.type('https://github.com/nelsontran/PyDuino-MK/', accuracy=85)
 ardu.write('A')
 ardu.write(65)
+ardu.press(LEFT_ALT)
 
 # Hit Ctrl+Alt+Delete
 # arduino.press(LEFT_CTRL)
