@@ -45,7 +45,10 @@ global runeLoc
 runeLoc = (0, 0)
 global onRune
 onRune = False , (0, 0)
-  
+
+global model
+model = tf.saved_model.load("src/Rune/saved_model")
+
 
 def init():
     global capStat
@@ -147,6 +150,8 @@ def work1():
 
                 if onRune[0]:
                     print("룬 위치 : ", onRune[1])
+                    if myLoc == onRune[1]:
+                        print("룬 까야지")
 
         time.sleep(int(locationStat[1]))
 
@@ -156,30 +161,23 @@ def work2():
     global myLoc
     global onRune
     while statM2:
-        if onRune[0]:
-            if myLoc == onRune[1]:
-                print("룬 까야지")
+
         # print("작업2")
         time.sleep(0.5)
 
 
 def test1():
     print("tes1")
-    image = cv2.imread("src/static/img/test.jpg")
-    image_array = np.array(image)
-
-    # bbox_screen = Camera.getRaw()
-    # image_array = np.array(bbox_screen)
-    img2 = cv2.cvtColor(image_array, cv2.COLOR_BGRA2RGB)
+    bbox_screen = Camera.getRaw()
+    image_array = np.array(bbox_screen)
     monitoring_screen = cv2.cvtColor(image_array, cv2.COLOR_BGRA2BGR)
     cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", monitoring_screen)
-    pb_path = "src/Rune/saved_model"
-    model = tf.saved_model.load(pb_path)
+    # pb_path = "src/Rune/saved_model"
+    # model = tf.saved_model.load(pb_path)
     with tf.device('/gpu:0'):
-        results = inference_from_model(model, img2)
+        results = inference_from_model(model, monitoring_screen )
     # monitoring_screen = monitoring(bbox_screen)
     # monitoring_screen = Camera.getRaw()
-
     print(results)
     
 # def monitoring(rect):
@@ -213,15 +211,13 @@ def inference_from_model(model, image, threshold=None):
         detect_coord = output_dict['detection_boxes'][:4]
     return detect_class[np.argsort(detect_coord[:,1])[::-1]]
 
-def init():
-    bbox_screen = imread("src/static/img/test.jpg")
-    image_array = np.array(bbox_screen)
-    img2 = cv2.cvtColor(image_array, cv2.COLOR_BGRA2RGB)
-    pb_path = "src/Rune/saved_model"
-    model = tf.saved_model.load(pb_path)
-    with tf.device('/gpu:0'):
-        results = inference_from_model(model, img2)
-    print(results)
+# def init():
+#     bbox_screen = imread("src/static/img/test.jpg")
+#     image_array = np.array(bbox_screen)
+#     img2 = cv2.cvtColor(image_array, cv2.COLOR_BGRA2RGB)
+#     with tf.device('/gpu:0'):
+#         results = inference_from_model(model, img2)
+#     print("초기화테스트" , results)
 
 
 # if __name__ == "__main__":
