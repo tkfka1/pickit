@@ -14,6 +14,7 @@ import win32gui
 from threading import Thread
 import tensorflow as tf
 import numpy as np
+import assets.섀도어 as 섀도어
 
 
 # 캡쳐 상태, 주기
@@ -161,24 +162,29 @@ def work2():
     global myLoc
     global onRune
     while statM2:
+        print("as")
 
-        # print("작업2")
-        time.sleep(0.5)
-
+def macro():
+    #위치전송
+    global myLoc
+    global runeLoc
+    global onRune
+    return myLoc, runeLoc, onRune
 
 def test1():
     print("tes1")
     bbox_screen = Camera.getRaw()
     image_array = np.array(bbox_screen)
-    monitoring_screen = cv2.cvtColor(image_array, cv2.COLOR_BGRA2BGR)
-    cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", monitoring_screen)
     # pb_path = "src/Rune/saved_model"
     # model = tf.saved_model.load(pb_path)
+    img2 = cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB)
     with tf.device('/gpu:0'):
-        results = inference_from_model(model, monitoring_screen )
+        results = inference_from_model(model, img2)
     # monitoring_screen = monitoring(bbox_screen)
     # monitoring_screen = Camera.getRaw()
     print(results)
+    monitoring_screen = cv2.cvtColor(image_array, cv2.COLOR_BGRA2BGR)
+    cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", monitoring_screen)
     
 # def monitoring(rect):
 #     bbox = (int(rect[0]), int(rect[1]), int(rect[2]), int(rect[3]))

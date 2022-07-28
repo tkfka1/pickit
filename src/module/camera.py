@@ -177,17 +177,3 @@ class Camera(object):
         else:
             return False
             
-
-    def iTimeChange( H , L , R):
-        global iTime
-        global iHandle
-        global iLocation
-        global iRune
-        iHandle = H
-        iLocation = L
-        iRune = R
-        iHandleI = iHandle/cycles
-        iLocationI = iHandle/cycles
-        iRuneI = iHandle/cycles
-        iTime= iHandleI, iLocationI, iRuneI
-        print(iTime)
