@@ -14,8 +14,9 @@ import win32gui
 from threading import Thread
 import tensorflow as tf
 import numpy as np
-import assets.섀도어 as 섀도어
-
+from script.arduino import Arduino
+from script.섀도어 import 섀도어
+import script.common as cm
 
 # 캡쳐 상태, 주기
 global capStat
@@ -45,10 +46,8 @@ myLoc = (0, 0)
 global runeLoc
 runeLoc = (0, 0)
 global onRune
-onRune = False , (0, 0)
+onRune = [False , (0, 0)]
 
-global model
-model = tf.saved_model.load("src/Rune/saved_model")
 
 
 def init():
@@ -100,11 +99,9 @@ def start():
 
         # 쓰레드
         th1 = Thread(target=work1, name='th1')
-        th2 = Thread(target=work2, name='th2')
         th1.start()
-        th2.start()
         th1.join()
-        th2.join()
+
 
         # # 매크로 시작
         # while statM:
@@ -133,6 +130,9 @@ def stop():
 
 # 기본 모니터링 쓰레드 (내위치, 룬위치, 거탐 등등)
 def work1():
+    global model
+    model = tf.saved_model.load("src/Rune/saved_model")
+
     global statM1
     global onRune
     global myLoc
@@ -146,13 +146,22 @@ def work1():
                 print("내 위치 : ", myLoc)
                 if runeLoc != (0, 0):
                     if runeLoc != False:
-                        onRune = True , runeLoc
+                        onRune = [True , runeLoc]
                         
-
                 if onRune[0]:
                     print("룬 위치 : ", onRune[1])
                     if myLoc == onRune[1]:
                         print("룬 까야지")
+                        time.sleep(3)
+                        print("딥브러닝시작")
+                        bbox_screen = Camera.getRaw()
+                        image_array = np.array(bbox_screen)
+                        img2 = cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB)
+                        with tf.device('/gpu:0'):
+                            results = inference_from_model(model, img2)
+                        print(results)
+                        monitoring_screen = cv2.cvtColor(image_array, cv2.COLOR_BGRA2BGR)
+                        cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", monitoring_screen)
 
         time.sleep(int(locationStat[1]))
 
@@ -161,37 +170,67 @@ def work2():
     global statM2
     global myLoc
     global onRune
+    print("매크로 시작")
+    arduino = cm.연결()
+    start = time.time()
+    arduino.release_all()
     while statM2:
-        print("as")
+        time.sleep(1)
+        if onRune[0]:
+            # print("룬 위치 : ", onRune[1])
+            if myLoc == onRune[1]:
+                print("룬도착")
+                onRune[0] = False
+            else:
+                print("룬 아니야지")
+                # cm.룬찾기(arduino ,myLoc, onRune , time.time()-start)
+            
+        # end = time()
+            # 섀도어.동굴아랫쪽(arduino ,myLoc, onRune , time.time()-start)
+        # print('time elapsed:', end - start)
 
-def macro():
-    #위치전송
+# 사냥 매크로 쓰레드
+def work2():
+    global statM2
     global myLoc
-    global runeLoc
     global onRune
-    return myLoc, runeLoc, onRune
+    print("매크로 시작")
+    arduino = cm.연결()
+    start = time.time()
+    arduino.release_all()
+    while statM2:
+        time.sleep(1)
+        if onRune[0]:
+            # print("룬 위치 : ", onRune[1])
+            if myLoc == onRune[1]:
+                print("룬도착")
+                onRune[0] = False
+            else:
+                print("룬 아니야지")
+                # cm.룬찾기(arduino ,myLoc, onRune , time.time()-start)
+            
+        # end = time()
+            # 섀도어.동굴아랫쪽(arduino ,myLoc, onRune , time.time()-start)
+        # print('time elapsed:', end - start)
+        
 
 def test1():
+
     print("tes1")
     bbox_screen = Camera.getRaw()
     image_array = np.array(bbox_screen)
-    # pb_path = "src/Rune/saved_model"
-    # model = tf.saved_model.load(pb_path)
     img2 = cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB)
     with tf.device('/gpu:0'):
         results = inference_from_model(model, img2)
-    # monitoring_screen = monitoring(bbox_screen)
-    # monitoring_screen = Camera.getRaw()
     print(results)
     monitoring_screen = cv2.cvtColor(image_array, cv2.COLOR_BGRA2BGR)
     cv2.imwrite(f"src/static/img/{int(time.time())}.jpg", monitoring_screen)
     
-# def monitoring(rect):
-#     bbox = (int(rect[0]), int(rect[1]), int(rect[2]), int(rect[3]))
-#     image_array = np.array(ImageGrab.grab(bbox=bbox))
-#     return image_array
-
 def test2():
+    th2 = Thread(target=work2, name='th2')
+    th2.start()
+    th2.join()
+    print("tes2")
     print("tes2")
 
 def inference_from_model(model, image, threshold=None):

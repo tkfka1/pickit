@@ -29,7 +29,7 @@ class Camera(object):
     locationStat = False , 2
     # 위치 미니맵 크기
     global mapSize
-    mapSize = (0, 0, 320, 250)
+    mapSize = (20, 60, 320, 250)
     # 룬 상태 , 주기
     global runeStat
     runeStat = False , 2
@@ -110,10 +110,10 @@ class Camera(object):
                     if i%int(locationStat[1]) == 0:
                         img2 = cv2.cvtColor(numpy.array(raw), cv2.COLOR_BGRA2BGR)
                         x=mapSize[0]; y=mapSize[1]; w=mapSize[2]; h=mapSize[3]
-                        myLoc = ic.minimapLoc(img2 , 0.99 , x , y , w , h)
+                        myLoc = ic.minimapLoc(img2 , 0.999 , x , y , w , h)
                         if runeStat[0]:
                             if i%int(runeStat[1]) == 0:
-                                runeLoc = ic.runeLoc(img2 , 0.99 , x , y , w , h)
+                                runeLoc = ic.runeLoc(img2 , 0.999 , x , y , w , h)
                
                                 
                 # print(i)
