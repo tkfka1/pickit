@@ -4,7 +4,6 @@ import queue
 import threading
 import time
 from cv2 import imread
-from matplotlib import pyplot as plt
 from module.camera import Camera
 import module.handle as hd
 import module.imgCheck as ic
@@ -15,7 +14,7 @@ import win32gui
 from threading import Thread
 import tensorflow as tf
 import numpy as np
-from PIL import ImageGrab
+
 
 # 캡쳐 상태, 주기
 global capStat
@@ -183,10 +182,10 @@ def test1():
 
     print(results)
     
-def monitoring(rect):
-    bbox = (int(rect[0]), int(rect[1]), int(rect[2]), int(rect[3]))
-    image_array = np.array(ImageGrab.grab(bbox=bbox))
-    return image_array
+# def monitoring(rect):
+#     bbox = (int(rect[0]), int(rect[1]), int(rect[2]), int(rect[3]))
+#     image_array = np.array(ImageGrab.grab(bbox=bbox))
+#     return image_array
 
 def test2():
     print("tes2")
