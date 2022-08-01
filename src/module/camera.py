@@ -94,6 +94,8 @@ class Camera(object):
                     raw = sct.grab(monitor)
                     img = cv2.imencode('.jpg', numpy.array(raw))[1].tobytes()
                     yield(img)
+
+                    
                 # 핸들 재수정
                 if handleStat[0]:  
                     if i%int(handleStat[1]) == 0: 
